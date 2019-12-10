@@ -6,10 +6,20 @@ const postSchema = new mongoose.Schema({
 	author: String,
   tags: [String],
   comments: [String],
-  created_at : {type:Date,default:Date.now},
-  updated_at : {type:Date,default:Date.now}
+  createdDate : {type:Date,default:Date.now},
+  updatedDate : {type:Date,default:Date.now}
 });
 
-export const Post = mongoose.model('Post',postSchema);
+export interface IUser extends mongoose.Document{
+  title: string,
+  content: string,
+	author: string,
+  tags: Array<string>,
+  comments: Array<string>,
+  createDate : Date,
+  updateDate : Date
+}
+
+export const Post = mongoose.model<IUser>('Post',postSchema);
 
 
