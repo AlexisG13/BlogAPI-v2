@@ -1,29 +1,31 @@
 {
-  "name": "blogapi-v2",
-  "version": "1.0.0",
-  "description": "Blog API but better! ft. Express",
-  "main": "app.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AlexisG13/BlogAPI-v2.git"
-  },
-  "author": "Alexis Gomez",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/AlexisG13/BlogAPI-v2/issues"
-  },
-  "homepage": "https://github.com/AlexisG13/BlogAPI-v2#readme",
-  "dependencies": {
-    "@types/node": "^12.12.16"
-  },
-  "devDependencies": {
-    "eslint": "^6.7.2",
-    "eslint-config-prettier": "^6.7.0",
-    "eslint-plugin-prettier": "^3.1.1",
-    "nodemon": "^2.0.1",
-    "prettier": "^1.19.1"
-  }
+	"name": "blogapi-v2",
+	"version": "1.0.0",
+	"description": "Blog API but better! ft. Express",
+	"main": "./src/app.ts",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/AlexisG13/BlogAPI-v2.git"
+	},
+	"author": "Alexis Gomez",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/AlexisG13/BlogAPI-v2/issues"
+	},
+	"homepage": "https://github.com/AlexisG13/BlogAPI-v2#readme",
+	"dependencies": {
+		"@types/mongoose": "^5.5.32",
+		"@types/node": "^12.12.16",
+		"mongoose": "^5.8.0"
+	},
+	"devDependencies": {
+		"eslint": "^6.7.2",
+		"eslint-config-prettier": "^6.7.0",
+		"eslint-plugin-prettier": "^3.1.1",
+		"nodemon": "^2.0.1",
+		"prettier": "^1.19.1"
+	}
 }
