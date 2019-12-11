@@ -6,8 +6,8 @@ import {
 	IsOptional
 } from 'class-validator';
 
-export class Post {
-	@Length(5, 25)
+export class PostBody {
+	@IsDefined()
 	title: string;
 	@IsDefined()
 	content: string;
@@ -17,7 +17,6 @@ export class Post {
 	tags: string[];
 	@IsOptional()
 	comments: string[];
-
 	constructor(
 		title: string,
 		content: string,
@@ -30,5 +29,16 @@ export class Post {
 		this.author = author;
 		this.tags = tags;
 		this.comments = comments;
+	}
+}
+
+export class PostUpdateBody {
+	@IsDefined()
+	title: string;
+	@IsDefined()
+	content: string;
+	constructor(title: string, content: string) {
+		this.title = title;
+		this.content = content;
 	}
 }
