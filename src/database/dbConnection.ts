@@ -1,11 +1,14 @@
 import mongoose from 'mongoose';
-const db = mongoose
+export function dbConnection(){ 
+	try{
+		mongoose
 	.connect('mongodb://localhost/postAPI', {
 		useNewUrlParser: true,
 		useUnifiedTopology: true
 	})
-	.then(() => console.log('Connected to mongodb'));
-
-export function getConnection(){
-	if (db) return db;
+}catch{
+	//Error
 }
+}
+
+
