@@ -1,6 +1,6 @@
 import express from 'express';
 import { validate } from 'class-validator';
-import {createPost } from '../controllers/createPost';
+import { createPost } from '../controllers/createPost';
 import { Request, Response } from 'express';
 import { Post } from '../classes/postClass';
 import { getPosts } from '../controllers/getPosts';
@@ -14,17 +14,26 @@ const postValidator = async function(
 ) {
 	if (!req.body) {
 		res.status(400).end(JSON.stringify({ message: 'Bad request' }));
-	}
-	const post = new Post(req.body.title, req.body.content);
+  }
+	const post = new Post(
+		req.body.title,
+		req.body.content,
+		req.body.author,
+		req.body.tags,
+		req.body.comments
+  );
   const result = await validate(post);
-  // AUN FALTA VER QUE ERROR SUCEDIO EN LA VALIDACION!!
-  if (result.length > 0) res.end('Missing parameters');
-  req.body = post;
+	// AUN FALTA VER QUE ERROR SUCEDIO EN LA VALIDACION!!
+	if (result.length > 0){ 
+    console.log(result);
+    res.end('Missing parameters');
+  }
+	req.body = post;
 	next();
 };
 
-router.get('/',getPosts);
-router.post('/', postValidator,createPost);
+router.get('/', getPosts);
+router.post('/', postValidator, createPost);
 //postRouter.post('/',createPost)
 //postRouter.delete('/:id',deletePost)
 
