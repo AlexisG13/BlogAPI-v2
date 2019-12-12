@@ -1,6 +1,6 @@
 import express from 'express';
 import { postRouter } from './routes/postRouter';
-import { dbConnection } from './database/dbConnection';
+import { dbConnection } from './database/connection';
 const app = express();
 app.use(express.json());
 dbConnection();

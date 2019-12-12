@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', validateId, async (req, res) => {
-  const response = await getSinglePost(req.params.id);
+  const response = await getSinglePost(req.body.idArray[0]);
   res.status(response.status).send(response.response);
 });
 
@@ -29,7 +29,7 @@ router.post('/', postValidator, async (req, res) => {
 });
 
 router.delete('/:id', validateId, async (req, res) => {
-  const response = await deletePost(req.params.id);
+  const response = await deletePost(req.body.idArray[0]);
   res.status(response.status).send(response.response);
 });
 

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-export function dbConnection() {
+export function dbConnection(): void {
   try {
     mongoose.connect('mongodb://localhost/postAPI', {
       useNewUrlParser: true,

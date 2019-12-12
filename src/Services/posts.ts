@@ -1,6 +1,6 @@
 import { postModel } from '../models/post';
 import { APIResponse } from '../utils/utils';
-import { PostUpdateBody, PostBody } from '../dto/postClass';
+import { PostUpdateBody, PostBody } from '../dto/post';
 
 export async function createPost(post: PostBody): Promise<APIResponse> {
   try {
@@ -14,6 +14,11 @@ export async function createPost(post: PostBody): Promise<APIResponse> {
 
 export async function deletePost(postId: string): Promise<APIResponse> {
   try {
+    const exists = await postModel.exists({ _id: postId });
+    if (!exists) {
+      return { status: 404, response: { message: 'Post not found' } };
+    }
+
     const deletedPost = await postModel.findByIdAndDelete(postId);
     if (!deletedPost) {
       return { status: 404, response: { message: 'Post not found' } };
@@ -35,6 +40,11 @@ export async function getPosts(): Promise<APIResponse> {
 
 export async function getSinglePost(postId: string): Promise<APIResponse> {
   try {
+    const exists = await postModel.exists({ _id: postId });
+    if (!exists) {
+      return { status: 404, response: { message: 'Post not found' } };
+    }
+
     const post = await postModel.findById(postId);
     if (!post) {
       return { status: 404, response: { message: 'Post not found' } };
@@ -47,6 +57,11 @@ export async function getSinglePost(postId: string): Promise<APIResponse> {
 
 export async function updatePost(newPost: PostUpdateBody): Promise<APIResponse> {
   try {
+    const exists = await postModel.exists({ _id: newPost._id });
+    if (!exists) {
+      return { status: 404, response: { message: 'Post not found' } };
+    }
+
     const updatedPost = await postModel.findOneAndUpdate(
       { _id: newPost._id },
       {

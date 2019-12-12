@@ -3,6 +3,13 @@ import { postModel } from '../models/post';
 
 export async function addTag(postId: string, tag: string): Promise<APIResponse> {
   try {
+    const exists = await postModel.exists({ _id: postId });
+    if (!exists) {
+      return { status: 404, response: { message: 'Post not found' } };
+    }
+    if (!tag) {
+      return { status: 400, response: { message: 'Bad parameters: No tag was given' } };
+    }
     const result = await postModel.findOneAndUpdate(
       {
         _id: postId,
@@ -14,8 +21,9 @@ export async function addTag(postId: string, tag: string): Promise<APIResponse> 
       },
       { new: true },
     );
+
     if (!result) {
-      return { status: 404, response: { message: 'Resource not found' } };
+      return { status: 404, response: { message: 'Post not found' } };
     }
     return { status: 201, response: result };
   } catch {
@@ -25,6 +33,11 @@ export async function addTag(postId: string, tag: string): Promise<APIResponse> 
 
 export async function deleteTag(postId: string, tag: string): Promise<APIResponse> {
   try {
+    const exists = await postModel.exists({ _id: postId });
+    if (!exists) {
+      return { status: 404, response: { message: 'Post not found' } };
+    }
+
     const result = await postModel.findOneAndUpdate(
       {
         _id: postId,
@@ -37,7 +50,7 @@ export async function deleteTag(postId: string, tag: string): Promise<APIRespons
       { new: true },
     );
     if (!result) {
-      return { status: 404, response: { message: 'Resource not found' } };
+      return { status: 404, response: { message: 'Tag not found' } };
     }
     return { status: 204, response: result };
   } catch {
@@ -47,6 +60,11 @@ export async function deleteTag(postId: string, tag: string): Promise<APIRespons
 
 export async function getAllTags(postId: string): Promise<APIResponse> {
   try {
+    const exists = await postModel.exists({ _id: postId });
+    if (!exists) {
+      return { status: 404, response: { message: 'Post not found' } };
+    }
+
     const tags = await postModel.findById(postId).select('tags -_id');
     if (!tags) {
       return { status: 404, response: { message: 'Post not found' } };
@@ -59,6 +77,15 @@ export async function getAllTags(postId: string): Promise<APIResponse> {
 
 export async function updateTag(postId: string, oldTag: string, newTag: string): Promise<APIResponse> {
   try {
+    const exists = await postModel.exists({ _id: postId });
+    if (!exists) {
+      return { status: 404, response: { message: 'Post not found' } };
+    }
+
+    if (!newTag) {
+      return { status: 400, response: { message: 'Bad parameters: No tag was given' } };
+    }
+
     const result = await postModel.findOneAndUpdate(
       { _id: postId, tags: oldTag },
       {
@@ -66,8 +93,9 @@ export async function updateTag(postId: string, oldTag: string, newTag: string):
       },
       { new: true },
     );
+
     if (!result) {
-      return { status: 404, response: { message: 'Resource not found' } };
+      return { status: 404, response: { message: 'Tag not found' } };
     }
     return { status: 200, response: result };
   } catch {
