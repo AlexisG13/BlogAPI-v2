@@ -67,6 +67,7 @@ export async function updatePost(newPost: PostUpdateBody): Promise<APIResponse> 
       {
         title: newPost.title,
         content: newPost.content,
+        updatedDate: Date.now(),
       },
       { new: true },
     );
