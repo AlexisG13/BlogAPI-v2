@@ -1,23 +1,41 @@
 import express from 'express';
-import { createPost } from '../controllers/post/createPost';
-import { getPosts } from '../controllers/post/getPosts';
-import { getSinglePost } from '../controllers/post/singlePostHandler';
-import { deletePost } from '../controllers/post/deletePost';
-import { updatePost } from '../controllers/post/updatePost';
-import { postValidator } from '../validator/postValidator';
+import { getPosts, getSinglePost, createPost, deletePost, updatePost } from '../Services/posts';
 import { commentRouter } from './commentRouter';
-import { updatePostValidator } from '../validator/updatePostValidator';
+import { validateId, postValidator, updatePostValidator } from '../utils/validator';
+import { tagsRouter } from './tagsRouter';
 
-const router = express.Router(); 
+const router = express.Router();
 
-//Comments router 
-router.use('/:id/comments',commentRouter);
+//Comments router
+router.use('/:id/comments', validateId, commentRouter);
 
-//Only post routes 
-router.get('/', getPosts);
-router.get('/:id', getSinglePost);
-router.post('/', postValidator, createPost);
-router.delete('/:id', deletePost);
-router.put('/:id',updatePostValidator,updatePost);
+//Tags router
+router.use('/:id/tags', validateId, tagsRouter);
+
+//Only post routes
+router.get('/', async (req, res) => {
+  const response = await getPosts();
+  res.status(response.status).send(response.response);
+});
+
+router.get('/:id', validateId, async (req, res) => {
+  const response = await getSinglePost(req.params.id);
+  res.status(response.status).send(response.response);
+});
+
+router.post('/', postValidator, async (req, res) => {
+  const response = await createPost(req.body);
+  res.status(response.status).send(response.response);
+});
+
+router.delete('/:id', validateId, async (req, res) => {
+  const response = await deletePost(req.params.id);
+  res.status(response.status).send(response.response);
+});
+
+router.put('/:id', validateId, updatePostValidator, async (req, res) => {
+  const response = await updatePost(req.body);
+  res.status(response.status).send(response.response);
+});
 
 export const postRouter = router;
