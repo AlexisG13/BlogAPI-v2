@@ -13,6 +13,12 @@
 ```
 npm install
 ```
+### Starting the server:
+- Enter to the src directory.
+- Run the following command: 
+```
+ts-node app.ts 
+```
 ## Built With
 
 - Node.js
