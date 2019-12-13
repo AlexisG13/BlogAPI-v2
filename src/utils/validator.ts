@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { CommentBody } from '../dto/comment';
+import { CommentBody, UpdateCommentBody } from '../dto/comment';
 import { validate } from 'class-validator';
 import { ID, PostUpdateBody, PostBody } from '../dto/post';
 
@@ -63,6 +63,21 @@ export async function postValidator(req: Request, res: Response, next: Function)
     req.body = post;
     next();
   } catch {
+    res.status(500).send({ message: 'Internal server error' });
+  }
+}
+
+export async function updateCommentValidator(req: Request, res: Response, next: Function): Promise<void> {
+  try {
+    const comment = new UpdateCommentBody(req);
+    const result = await validate(comment);
+    if (result.length > 0) {
+      console.log(result);
+      res.status(400).json(result);
+    }
+    req.body.comment = comment;
+    next();
+  } catch (error) {
     res.status(500).send({ message: 'Internal server error' });
   }
 }

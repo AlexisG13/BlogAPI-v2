@@ -11,3 +11,11 @@ export class CommentBody {
     this.author = req.body.author;
   }
 }
+
+export class UpdateCommentBody {
+  @IsDefined()
+  content: string;
+  constructor(req: Request) {
+    this.content = req.body.content;
+  }
+}

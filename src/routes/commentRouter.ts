@@ -1,6 +1,6 @@
 import express from 'express';
 import { getAllComments, deleteComment, postComment, updateComment } from '../Services/comments';
-import { validateComment, validateId } from '../utils/validator';
+import { validateComment, validateId, updateCommentValidator } from '../utils/validator';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -13,7 +13,7 @@ router.post('/', validateComment, async (req, res) => {
   res.status(response.status).send(response.response);
 });
 
-router.put('/:id', validateId, validateComment, async (req, res) => {
+router.put('/:id', validateId, updateCommentValidator, async (req, res) => {
   const response = await updateComment(req.body.idArray[0], req.body.idArray[1], req.body.content);
   res.status(response.status).send(response.response);
 });
